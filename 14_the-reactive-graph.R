@@ -12,6 +12,7 @@ ui <- fluidPage(
 server <- function(input, output, session) {
   a <- reactive(input$a, label = "expression 'a' ")
   b <- reactive(input$b, label = "expresison 'b' ")
+
   output$out <- renderText({
     if (input$choice == "a") {
       a()

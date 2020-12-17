@@ -1,15 +1,5 @@
----
-output: github_document
----
 
-```{r setup, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-```
-
-```{r}
+``` r
 library(shiny)
 ```
 
@@ -19,13 +9,15 @@ library(shiny)
 
 Quiero una herramienta interactive y eficiente:
 
-* Reactive expressions and outputs update if and only if their inputs change. 
+-   Reactive expressions and outputs update if and only if their inputs
+    change.
 
-* Outputs stay in sync with inputs, never doing more work than necessary.
+-   Outputs stay in sync with inputs, never doing more work than
+    necessary.
 
 ## Implementacion ingenua
 
-```{r}
+``` r
 valor <- 10
 out <- function() {
   message("Corriendo") 
@@ -33,28 +25,41 @@ out <- function() {
 }
 ```
 
-```{r}
+``` r
 # Valor nuevo
 valor <- 10
 valor
+#> [1] 10
 
 # Corre?
 out()
+#> Corriendo
+#> [1] 1000
 
 # Corre?
 out()
+#> Corriendo
+#> [1] 1000
 out()
+#> Corriendo
+#> [1] 1000
 
 # Valor nuevo
 valor <- 9
 
 # Corre?
 out()
+#> Corriendo
+#> [1] 900
 
 # Corre?
 valor <- 9
 out()
+#> Corriendo
+#> [1] 900
 out()
+#> Corriendo
+#> [1] 900
 ```
 
 ## Shiny
@@ -63,23 +68,26 @@ out()
 
 Falla.
 
-```{r, error = TRUE}
+``` r
 call_reactive <- reactive(1)
 call_reactive()
+#> Error: Operation not allowed without an active reactive context.
+#> * You tried to do something that can only be done from inside a reactive consumer.
 ```
 
 Funciona.
 
-```{r, error = TRUE}
+``` r
 # shiny-devel
 # remotes::install_github("rstudio/shiny")
 reactiveConsole(TRUE)
 
 call_reactive <- reactive(1)
 call_reactive()
+#> [1] 1
 ```
 
-```{r, error = TRUE}
+``` r
 out <- reactive({
   message("Corriendo")
   valor() * 100
@@ -88,33 +96,42 @@ out <- reactive({
 
 ## Por que reactividad?
 
-> Lazy: it doesn't do any work until it's called.
+> Lazy: it doesn’t do any work until it’s called.
 
-> Cached: it doesn't do any work the second and subsequent times it's called because it caches the previous result.
+> Cached: it doesn’t do any work the second and subsequent times it’s
+> called because it caches the previous result.
 
 Ejemplo:
 
-```{r}
+``` r
 # Valor nuevo
 valor <- reactiveVal(10)
 valor()
+#> [1] 10
 
 # Corre?
 out()
+#> Corriendo
+#> [1] 1000
 
 # Corre?
 out()
+#> [1] 1000
 out()
+#> [1] 1000
 
 # Valor nuevo
 valor(9)
 
 # Corre?
 out()
+#> Corriendo
+#> [1] 900
 
 # Corre?
 valor(9)
 out()
+#> [1] 900
 out()
+#> [1] 900
 ```
-

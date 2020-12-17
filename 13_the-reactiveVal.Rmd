@@ -100,10 +100,10 @@ call_reactive()
 ##
 
 ```{r, error = TRUE}
-input <- reactiveVal(0)
-input()
-input(1)
-input()
+input <- reactiveVal()
+# sintaxis rara
+input(1)  # set
+input()   # get
 
 output <- reactive({
   message("Calculando")

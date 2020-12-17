@@ -5,6 +5,7 @@ library(reactlog)
 reactlog::reactlog_enable()
 
 ui <- fluidPage(
+  h3("Usa reactlog con Control + F3"),
   selectInput("choice", "A or B?", c("a", "b")),
   numericInput("a", "a", 0),
   numericInput("b", "b", 10),

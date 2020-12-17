@@ -1,6 +1,6 @@
 ---
 title: "13: Why reactivity?"
-output: github_document
+output: ioslides_presentation
 ---
 
 ```{r setup, include = FALSE}
@@ -29,6 +29,8 @@ Quiero una herramienta interactive y eficiente:
 
 
 # Implementacion ingenua
+
+##
 
 ```{r}
 output <- function() {
@@ -71,6 +73,8 @@ output()
 
 # Interesante
 
+##
+
 Falla.
 
 ```{r, error = TRUE}
@@ -92,6 +96,8 @@ call_reactive()
 
 
 # Implementación con shiny
+
+##
 
 ```{r, error = TRUE}
 input <- reactiveVal(0)

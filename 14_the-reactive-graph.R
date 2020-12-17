@@ -1,3 +1,5 @@
+# The reactive graph
+
 library(shiny)
 library(reactlog)
 reactlog::reactlog_enable()

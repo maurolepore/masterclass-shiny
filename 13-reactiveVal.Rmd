@@ -1,0 +1,47 @@
+---
+output: github_document
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r}
+library(shiny)
+```
+
+# 13: Why reactivity?
+
+For Shiny apps to be maximally useful, we need reactive expressions and
+outputs to update if and only if their inputs change. We want outputs to stay
+in sync with inputs, while ensuring that we never do more work than necessary.
+To see why reactivity is so helpful here, we’ll take a stab a solving a simple
+problem without reactivity.
+
+
+
+```{r}
+reactiveConsole(TRUE)
+
+out <- reactive({
+  message("Computing")
+  rv() * 100
+})
+
+rv <- reactiveVal(10)
+rv()
+
+out()
+out()
+out()
+
+rv(9)
+out()
+rv(9)
+out()
+out()
+```
+

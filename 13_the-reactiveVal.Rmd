@@ -8,9 +8,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-```
 
-```{r}
 library(shiny)
 ```
 
@@ -24,47 +22,54 @@ library(shiny)
 
 Quiero una herramienta interactive y eficiente:
 
-* Reactive expressions and outputs update if and only if their inputs change. 
+1. Si los inputs cambian, los outputs cambian.
+2. Si los inputs no cambian, los outputs no cambian.
+3. Si los inputs no cambian, y el output ya fue calculado, no recalcula.
 
-* Outputs stay in sync with inputs, never doing more work than necessary.
 
-## Implementacion ingenua
+
+# Implementacion ingenua
 
 ```{r}
-valor <- 10
-out <- function() {
-  message("Corriendo") 
-  valor * 100
+output <- function() {
+  message("Calculando") 
+  input * 100
 }
 ```
 
+## 1. Si: Si los inputs cambian, los outputs cambian
+
 ```{r}
-# Valor nuevo
-valor <- 10
-valor
+input <- 10
+output()
 
-# Corre?
-out()
-
-# Corre?
-out()
-out()
-
-# Valor nuevo
-valor <- 9
-
-# Corre?
-out()
-
-# Corre?
-valor <- 9
-out()
-out()
+input <- 9
+output()
 ```
 
-## Shiny
+## 2. Si: Si los inputs no cambian, los outputs no cambian
 
-## Interesante 2
+```{r}
+input <- 9
+output()
+
+input <- 9
+output()
+```
+
+## 3. No: Si los inputs no cambian, y el output ya fue calculado, no recalcula
+
+```{r}
+input <- 9
+output()
+
+input <- 9
+output()
+```
+
+
+
+# Interesante
 
 Falla.
 
@@ -76,50 +81,44 @@ call_reactive()
 Funciona.
 
 ```{r, error = TRUE}
-# shiny-devel
 # remotes::install_github("rstudio/shiny")
+packageVersion("shiny")
 reactiveConsole(TRUE)
 
 call_reactive <- reactive(1)
 call_reactive()
 ```
 
+
+
+# Implementación con shiny
+
 ```{r, error = TRUE}
-out <- reactive({
-  message("Corriendo")
-  valor() * 100
+input <- reactiveVal(0)
+input()
+input(1)
+input()
+
+output <- reactive({
+  message("Calculando")
+  input() * 100
 })
+
+output()
 ```
 
-## Por que reactividad?
-
-> Lazy: it doesn't do any work until it's called.
-
-> Cached: it doesn't do any work the second and subsequent times it's called because it caches the previous result.
-
-Ejemplo:
+## Si, Si, Si
 
 ```{r}
-# Valor nuevo
-valor <- reactiveVal(10)
-valor()
+# 1. Si: Si los inputs cambian, los outputs cambian.
+input(10)
+output()
+input(9)
+output()
 
-# Corre?
-out()
-
-# Corre?
-out()
-out()
-
-# Valor nuevo
-valor(9)
-
-# Corre?
-out()
-
-# Corre?
-valor(9)
-out()
-out()
+# 2. Si: los inputs no cambian, los outputs no cambian.
+# 3. Si: Si los inputs no cambian, y el output ya fue calculado, no recalcula.
+input(9)
+output()
 ```
 

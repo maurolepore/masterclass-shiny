@@ -1,4 +1,5 @@
 ---
+title: "13: Why reactivity?"
 output: github_document
 ---
 
@@ -13,7 +14,12 @@ knitr::opts_chunk$set(
 library(shiny)
 ```
 
-# 13: Why reactivity?
+
+## Interesante
+
+> [40 years ago] I imagined a magic blackboard that if you erased one number and wrote a new thing in, all of the other numbers would automatically change, like word processing with numbers.
+
+-- — Dan Bricklin <https://www.youtube.com/watch?v=YDvbDiJZpy0&feature=youtu.be>
 
 ## Desafio
 
@@ -59,7 +65,7 @@ out()
 
 ## Shiny
 
-## Interesante
+## Interesante 2
 
 Falla.
 
